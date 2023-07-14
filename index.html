@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+    <title>Países del mundo</title>
+  </head>
+  <body class="body">
+    <section>
+        <header class="header">
+            <div class="iconContainer">
+              <div class="light">
+                <i class="fa-regular fa-sun"></i>
+                <p>Light Mode</p>
+              </div>
+              <h1>Países del Mundo</h1>
+              <div class="dark">
+                <i class="fa-solid fa-moon"></i>
+                <p>Dark Mode</p>
+              </div>
+            </div>
+            <select name="continent" id="continent">
+              <option value="0" selected>Todos (Selecciona un continente)</option>
+              <option value="1">Asia</option>
+              <option value="2">América</option>
+              <option value="3">Africa</option>
+              <option value="4">Europa</option>
+              <option value="5">Oceanía</option>
+            </select>
+            <div class="searchBox">
+              <input class="input" type="text" placeholder="Busca un país" />
+              <button class="btn">Buscar</button>
+            </div>
+          </header>
+      
+          <div class="container" id="countryList">
+      
+          </div>
+    </section>
+
+    <script src="./script.js"></script>
+  </body>
+</html>

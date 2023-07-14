@@ -1,0 +1,260 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;0,1000;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900;1,1000&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--light-body);
+  font-family: "Nunito", sans-serif;
+}
+
+:root {
+  --dark-body: rgb(54, 60, 65);
+  --dark-container: rgb(129, 134, 145);
+  --dark-country: ;
+  --dark-input: ;
+  --dark-button: ;
+  --dark-text: rgb(155, 164, 181);
+
+  --light-body: rgb(203, 208, 219);
+  --light-container: rgb(173, 180, 194);
+  --light-country: rgb(165, 169, 179);
+  --light-input: rgb(156, 160, 173);
+  --light-button: rgb(150, 152, 163);
+  --light-text: rgba(41, 43, 80, 0.7);
+}
+
+section {
+    max-width: 90vw;
+}
+
+header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--light-container);
+  margin: 40px 0;
+  padding: 25px;
+  border-radius: 8px;
+}
+
+h1 {
+  text-align: center;
+  font-size: 2.3rem;
+  font-weight: 800;
+  color: var(--light-text);
+  margin: 20px;
+}
+
+select {
+  min-width: 280px;
+  min-height: 35px;
+  border: none;
+  border-radius: 5px;
+  background-color: var(--light-input);
+  font-size: 17px;
+  font-weight: 600;
+  padding: 5px;
+}
+
+select:focus {
+  outline: none;
+}
+
+option {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.searchBox {
+  position: relative;
+}
+
+input {
+  min-width: 180px;
+  height: 38px;
+  border: none;
+  border-radius: 5px;
+  background-color: var(--light-input);
+  font-size: 15px;
+  font-weight: 600;
+  padding: 0 10px;
+  margin-top: 25px;
+  outline: none;
+}
+
+button {
+  height: 38px;
+  width: 78px;
+  font-size: 15px;
+  font-weight: 600;
+  background-color: var(--light-button);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.iconContainer {
+  width: 90vw;
+  display: flex;
+  justify-content: space-around;
+  margin: 15px;
+}
+
+.light,
+.dark {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--light-text);
+  margin: 0 15px;
+}
+
+.fa-sun,
+.fa-moon {
+  font-size: 25px;
+  font-weight: 700;
+  color: var(--light-text);
+  margin: 15px;
+  cursor: pointer;
+}
+
+p {
+  margin: 0 15px;
+  text-align: center;
+}
+
+.container {
+  margin: 40px 0;
+  max-width: 90vw;
+  width: 100%;
+  background-color: var(--light-container);
+  padding: 30px;
+  border-radius: 7px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-gap: 30px;
+}
+
+.country {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin: 5px;
+  padding: 12px;
+  border-radius: 8px;
+  background-color: var(--light-country);
+  cursor: pointer;
+}
+
+.country img {
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.country span {
+  font-weight: 800;
+  font-size: 1.3rem;
+  color: var(--light-text);
+  padding: 5px;
+}
+
+.country .datos {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--light-text);
+  padding: 2px;
+}
+
+.countryDetail {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  text-align: center;
+  margin: 15px;
+  padding: 12px;
+  border-radius: 8px;
+  background-color: var(--light-country);
+  font-weight: 800;
+  font-size: 1.8rem;
+  color: rgba(41, 43, 80, 0.7);
+  padding: 35px;
+}
+
+.countryDetail img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 15px;
+}
+
+.countryData {
+  display: flex;
+  flex-direction: column;
+  
+  font-size: 14px;
+}
+
+.datosCountry {
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: var(--light-text);
+  padding: 15px 0;
+  font-size: 20px;
+}
+
+/*
+.datosBorders {
+  display: flex;
+  flex-direction: row;
+  background-color: var(--light-button);
+  padding: 15px;
+}
+*/ 
+
+.backbutton {
+  background-color: var(--light-button);
+  width: 120px;
+  margin: auto;
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  border-radius: 8px;
+  user-select: none;
+  font-weight: 800;
+  font-size: 16px;
+}
+
+.backbutton:hover,
+button:hover {
+  background-color: rgb(140, 142, 150);
+}
+
+a {
+  text-decoration: none;
+}
+
+/*
+@media screen and (width > 768){
+  .countryDetail {
+    display: flex;
+    flex-direction: row;
+  }
+}
+*/

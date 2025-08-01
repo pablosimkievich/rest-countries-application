@@ -145,7 +145,7 @@ const fetchingAll = async function () {
             countryLanguage.classList.add("datosCountry");
             countryBorders.classList.add("datosCountry");
 
-            countryName.textContent = element.name;
+            countryName.textContent = element.name.common;
             countryContinent.textContent = element.region;
             countryPopulation.textContent = `Población: ${element.population}`;
             countryCapitalCity.textContent = `Capital: ${element.capital}`;
@@ -711,7 +711,7 @@ const fetchingAllAgain = async function () {
       countryPopulation.classList.add("datos");
       countryCapitalCity.classList.add("datos");
 
-      countryName.textContent = country.name;
+      countryName.textContent = country.name.common;
       countryDiv.appendChild(flagImg);
       countryDiv.appendChild(countryName);
       countryLink.appendChild(countryDiv);

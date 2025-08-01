@@ -1,4 +1,4 @@
-const urlAll = "https://restcountries.com/v2/all";
+const urlAll = "https://restcountries.com/v3.1/all?fields=name,flags,capital,region,population,borders";
 const urlAmerica = "https://restcountries.com/v2/region/americas";
 const urlEurope = "https://restcountries.com/v2/region/europe";
 const urlAsia = "https://restcountries.com/v2/region/asia";

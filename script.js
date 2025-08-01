@@ -47,7 +47,7 @@ const fetchingAll = async function () {
       const countryContinent = document.createElement("span");
       const countryLink = document.createElement("a");
       const countryCode = country.alpha2Code;
-      countryName.textContent = country.name;
+      countryName.textContent = country.name.common;
 
       countryDiv.appendChild(flagImg);
       countryDiv.appendChild(countryName);

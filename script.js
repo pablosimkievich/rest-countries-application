@@ -72,8 +72,8 @@ const fetchingAll = async function () {
             backButton.textContent = "Volver"
 
             const flagImg = document.createElement("img");
-            flagImg.src = data.flags.svg;
-            flagImg.alt = `${data.name} flag`;
+            flagImg.src = data.flags[0].svg;
+            flagImg.alt = `${data[0].name.common} flag`;
 
             const countryName = document.createElement("span");
             const countryContinent = document.createElement("span");
@@ -86,12 +86,12 @@ const fetchingAll = async function () {
             countryCapitalCity.classList.add("datosCountry");
             countryLanguage.classList.add("datosCountry");
             countryBorders.classList.add("datosCountry");
-            countryName.textContent = data.name.common;
-            countryContinent.textContent = data.region;
-            countryPopulation.textContent = `Población: ${data.population}`;
-            countryCapitalCity.textContent = `Capital: ${data.capital}`;
-            countryLanguage.textContent = `Lenguaje: ${data.languages[0].name}`;
-            countryBorders.textContent = `Fronteras: ${ data.borders ? data.borders.map((border) => border): "sin fronteras"}`
+            countryName.textContent = data[0].name.common;
+            countryContinent.textContent = data[0].region;
+            countryPopulation.textContent = `Población: ${data[0].population}`;
+            countryCapitalCity.textContent = `Capital: ${data[0].capital}`;
+            countryLanguage.textContent = `Lenguaje: ${data.[0]languages[0].name}`;
+            countryBorders.textContent = `Fronteras: ${ data.[0]borders ? data[0].borders.map((border) => border): "sin fronteras"}`
             countryDiv.appendChild(flagImg);
             countryDiv.appendChild(countryName);
             countryDiv.appendChild(countryContinent);

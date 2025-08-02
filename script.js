@@ -56,7 +56,7 @@ const fetchingAll = async function () {
 
       // Detalle de todos los países al inicio app
       countryLink.addEventListener("click", () => {
-        fetch(`https://restcountries.com/v2/alpha/${countryCode}`)
+        fetch(`https://restcountries.com/v3.1/alpha/${countryCode}`)
           .then((response) => response.json())
             
           .then((data) => {
@@ -719,7 +719,7 @@ const fetchingAllAgain = async function () {
 
       // Detalle de todos los países
       countryLink.addEventListener("click", () => {
-        fetch(`https://restcountries.com/v2/alpha/${countryCode}`)
+        fetch(`https://restcountries.com/v3.1/alpha/${countryCode}`)
           .then((response) => response.json())
           .then((data) => {
             countryList.textContent = "";

@@ -72,7 +72,7 @@ const fetchingAll = async function () {
             backButton.textContent = "Volver"
 
             const flagImg = document.createElement("img");
-            flagImg.src = data.flags[0].svg;
+            flagImg.src = data[0].flags.svg;
             flagImg.alt = `${data[0].name.common} flag`;
 
             const countryName = document.createElement("span");

@@ -86,7 +86,7 @@ const fetchingAll = async function () {
             countryCapitalCity.classList.add("datosCountry");
             countryLanguage.classList.add("datosCountry");
             countryBorders.classList.add("datosCountry");
-            countryName.textContent = data.name;
+            countryName.textContent = data.name.common;
             countryContinent.textContent = data.region;
             countryPopulation.textContent = `Población: ${data.population}`;
             countryCapitalCity.textContent = `Capital: ${data.capital}`;

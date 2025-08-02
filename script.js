@@ -90,8 +90,8 @@ const fetchingAll = async function () {
             countryContinent.textContent = data[0].region;
             countryPopulation.textContent = `Población: ${data[0].population}`;
             countryCapitalCity.textContent = `Capital: ${data[0].capital}`;
-            countryLanguage.textContent = `Lenguaje: ${data.[0]languages.name}`;
-            countryBorders.textContent = `Fronteras: ${ data.[0]borders ? data[0].borders.map((border) => border): "sin fronteras"}`
+            countryLanguage.textContent = `Lenguaje: ${data[0].languages.name}`;
+            countryBorders.textContent = `Fronteras: ${ data[0].borders ? data[0].borders.map((border) => border): "sin fronteras"}`
             countryDiv.appendChild(flagImg);
             countryDiv.appendChild(countryName);
             countryDiv.appendChild(countryContinent);

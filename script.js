@@ -116,7 +116,7 @@ const fetchingAll = async function () {
         let searchQuery = searchInput.value.toLowerCase();
 
         data.forEach((element) => {
-          let searchCountry = element.name.toLowerCase();
+          let searchCountry = element.name.common.toLowerCase();
 
           if (searchCountry.includes(searchQuery)) {
             countryList.textContent = "";

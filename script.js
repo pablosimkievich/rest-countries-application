@@ -1,29 +1,56 @@
-const urlAll =
-  "https://restcountries.com/v3.1/all?fields=name,flags,capital,region,population,borders,cca2,languages,subregion";
-const urlAmerica =
-  "https://restcountries.com/v3.1/region/americas?fields=name,flags,subregion,cca2,region";
-const urlEurope =
-  "https://restcountries.com/v3.1/region/europe?fields=name,flags,subregion,cca2,region";
-const urlAsia =
-  "https://restcountries.com/v3.1/region/asia?fields=name,flags,subregion,cca2,region";
-const urlAfrica =
-  "https://restcountries.com/v3.1/region/africa?fields=name,flags,subregion,cca2,region";
-const urlOceania =
-  "https://restcountries.com/v3.1/region/oceania?fields=name,flags,subregion,cca2,region";
+const DATA_URL = "./countries.json";
+
+const getCountryName = (country) =>
+  country?.name?.common || country?.name || "País desconocido";
+
+const getCountryCode = (country) =>
+  country?.cca2?.toUpperCase() || country?.cca3 || "";
+
+const getFlagUrl = (country) => {
+  const code = getCountryCode(country);
+  if (!code) return "";
+  return `https://flagcdn.com/w320/${code.toLowerCase()}.png`;
+};
+
+const getCapitalName = (country) => {
+  if (Array.isArray(country?.capital) && country.capital.length > 0) {
+    return country.capital[0];
+  }
+
+  return country?.capital || "Desconocida";
+};
+
+const getLanguagesText = (country) => {
+  const languages = country?.languages;
+  if (!languages) return "Desconocido";
+
+  return Object.values(languages).join(", ") || "Desconocido";
+};
+
+const normalizeCountry = (country = {}) => ({
+  ...country,
+  name: { common: getCountryName(country) },
+  flags: { svg: getFlagUrl(country) },
+  cca2: getCountryCode(country),
+  capital: getCapitalName(country),
+  population: country.population ?? 0,
+  region: country.region || "Desconocida",
+  subregion: country.subregion || "",
+  borders: country.borders || [],
+  languages: country.languages || {},
+});
 
 // Light mode Dark Mode
 const light = document.querySelector(".fa-sun");
 const dark = document.querySelector(".fa-moon");
 
 light.addEventListener("click", () => {
-  // console.log("light");
   body.style.backgroundColor = "var(--light-body)";
   container.style.backgroundColor = "var(--light-container)";
   header.style.backgroundColor = "var(--light-container)";
 });
 
 dark.addEventListener("click", () => {
-  // console.log("dark");
   body.style.backgroundColor = "var(--dark-body)";
   container.style.backgroundColor = "var(--dark-container)";
   header.style.backgroundColor = "var(--dark-container)";
@@ -39,72 +66,60 @@ const searchInput = document.querySelector(".input");
 const searchButton = document.querySelector(".btn");
 
 let allCountriesData = [];
-let currentViewFunction = () => fetchingAll();
+let currentViewFunction = () => loadAllCountries();
 
-const showCountryDetails = async (countryCode) => {
-  try {
-    const response = await fetch(
-      `https://restcountries.com/v3.1/alpha/${countryCode}`
-    );
-    const data = await response.json();
-    const country = data[0];
+const showCountryDetails = (countryCode) => {
+  const country = allCountriesData.find((item) => item.cca2 === countryCode);
 
+  if (!country) return;
+
+  countryList.textContent = "";
+  const countryDiv = document.createElement("div");
+  countryDiv.classList.add("countryDetail");
+  const countryData = document.createElement("div");
+  countryData.classList.add("countryData");
+  const backButton = document.createElement("div");
+  backButton.classList.add("backbutton");
+  backButton.textContent = "Volver";
+
+  const flagImg = document.createElement("img");
+  flagImg.src = getFlagUrl(country);
+  flagImg.alt = `${country.name.common} flag`;
+
+  const countryName = document.createElement("span");
+  const countryContinent = document.createElement("span");
+  const countryPopulation = document.createElement("span");
+  const countryCapitalCity = document.createElement("span");
+  const countryLanguage = document.createElement("span");
+  const countryBorders = document.createElement("span");
+  countryContinent.classList.add("datosCountry");
+  countryPopulation.classList.add("datosCountry");
+  countryCapitalCity.classList.add("datosCountry");
+  countryLanguage.classList.add("datosCountry");
+  countryBorders.classList.add("datosCountry");
+  countryName.textContent = country.name.common;
+  countryContinent.textContent = country.region;
+  countryPopulation.textContent = `Población: ${country.population}`;
+  countryCapitalCity.textContent = `Capital: ${country.capital}`;
+  countryLanguage.textContent = `Lenguaje: ${getLanguagesText(country)}`;
+  countryBorders.textContent = `Fronteras: ${
+    country.borders.length > 0 ? country.borders.join(", ") : "Sin fronteras"
+  }`;
+  countryDiv.appendChild(flagImg);
+  countryDiv.appendChild(countryName);
+  countryDiv.appendChild(countryContinent);
+  countryData.appendChild(countryPopulation);
+  countryData.appendChild(countryCapitalCity);
+  countryData.appendChild(countryLanguage);
+  countryData.appendChild(countryBorders);
+  countryData.appendChild(backButton);
+  countryList.appendChild(countryData);
+  countryList.appendChild(countryDiv);
+
+  backButton.addEventListener("click", () => {
     countryList.textContent = "";
-    const countryDiv = document.createElement("div");
-    countryDiv.classList.add("countryDetail");
-    const countryData = document.createElement("div");
-    countryData.classList.add("countryData");
-    const backButton = document.createElement("div");
-    backButton.classList.add("backbutton");
-    backButton.textContent = "Volver";
-
-    const flagImg = document.createElement("img");
-    flagImg.src = country.flags.svg;
-    flagImg.alt = `${country.name.common} flag`;
-
-    const countryName = document.createElement("span");
-    const countryContinent = document.createElement("span");
-    const countryPopulation = document.createElement("span");
-    const countryCapitalCity = document.createElement("span");
-    const countryLanguage = document.createElement("span");
-    const countryBorders = document.createElement("span");
-    countryContinent.classList.add("datosCountry");
-    countryPopulation.classList.add("datosCountry");
-    countryCapitalCity.classList.add("datosCountry");
-    countryLanguage.classList.add("datosCountry");
-    countryBorders.classList.add("datosCountry");
-    countryName.textContent = country.name.common;
-    countryContinent.textContent = country.region;
-    countryPopulation.textContent = `Población: ${country.population}`;
-    countryCapitalCity.textContent = `Capital: ${
-      country.capital?.[0] || "Desconocida"
-    }`;
-    countryLanguage.textContent = `Lenguaje: ${
-      country.languages
-        ? Object.values(country.languages).join(", ")
-        : "Desconocido"
-    }`;
-    countryBorders.textContent = `Fronteras: ${
-      country.borders ? country.borders.join(", ") : "Sin fronteras"
-    }`;
-    countryDiv.appendChild(flagImg);
-    countryDiv.appendChild(countryName);
-    countryDiv.appendChild(countryContinent);
-    countryData.appendChild(countryPopulation);
-    countryData.appendChild(countryCapitalCity);
-    countryData.appendChild(countryLanguage);
-    countryData.appendChild(countryBorders);
-    countryData.appendChild(backButton);
-    countryList.appendChild(countryData);
-    countryList.appendChild(countryDiv);
-
-    backButton.addEventListener("click", () => {
-      countryList.textContent = "";
-      currentViewFunction();
-    });
-  } catch (error) {
-    console.log(error);
-  }
+    currentViewFunction();
+  });
 };
 
 const displayCountries = (countries) => {
@@ -113,7 +128,7 @@ const displayCountries = (countries) => {
     const countryDiv = document.createElement("div");
     countryDiv.classList.add("country");
     const flagImg = document.createElement("img");
-    flagImg.src = country.flags.svg;
+    flagImg.src = getFlagUrl(country);
     flagImg.alt = `${country.name.common} flag`;
     const countryName = document.createElement("span");
     countryName.textContent = country.name.common;
@@ -140,34 +155,59 @@ const displayCountries = (countries) => {
   });
 };
 
-const fetchingAll = async function () {
-  currentViewFunction = fetchingAll;
+const loadAllCountries = async () => {
+  currentViewFunction = loadAllCountries;
+
   try {
-    const response = await fetch(urlAll);
+    const response = await fetch(DATA_URL);
     const data = await response.json();
-    allCountriesData = data;
-    displayCountries(data);
+    allCountriesData = data.map(normalizeCountry);
+    displayCountries(allCountriesData);
   } catch (error) {
     console.log(error);
+    countryList.innerHTML = `
+      <div class="countryDetail">
+        <h2>No se pudo cargar el listado</h2>
+        <p>Comprueba que el archivo <strong>countries.json</strong> esté en la raíz del proyecto.</p>
+      </div>
+    `;
   }
 };
 
-const fetchRegion = async function (url, regionFetchingFunction) {
-  currentViewFunction = regionFetchingFunction;
-  try {
-    const response = await fetch(url);
-    const data = await response.json();
-    displayCountries(data);
-  } catch (error) {
-    console.log(error);
-  }
+const filterByRegion = (regionName) => {
+  const filtered = allCountriesData.filter((country) => country.region === regionName);
+  displayCountries(filtered);
 };
 
-const fetchingAmerica = () => fetchRegion(urlAmerica, fetchingAmerica);
-const fetchingEurope = () => fetchRegion(urlEurope, fetchingEurope);
-const fetchingAsia = () => fetchRegion(urlAsia, fetchingAsia);
-const fetchingAfrica = () => fetchRegion(urlAfrica, fetchingAfrica);
-const fetchingOceania = () => fetchRegion(urlOceania, fetchingOceania);
+const fetchingAll = () => {
+  currentViewFunction = loadAllCountries;
+  displayCountries(allCountriesData);
+};
+
+const fetchingAmerica = () => {
+  currentViewFunction = () => fetchingAmerica();
+  filterByRegion("Americas");
+};
+
+const fetchingEurope = () => {
+  currentViewFunction = () => fetchingEurope();
+  filterByRegion("Europe");
+};
+
+const fetchingAsia = () => {
+  currentViewFunction = () => fetchingAsia();
+  filterByRegion("Asia");
+};
+
+const fetchingAfrica = () => {
+  currentViewFunction = () => fetchingAfrica();
+  filterByRegion("Africa");
+};
+
+const fetchingOceania = () => {
+  currentViewFunction = () => fetchingOceania();
+  filterByRegion("Oceania");
+};
 
 searchInput.addEventListener("keydown", (event) => {
   if (event.key === "Enter") {
@@ -184,7 +224,7 @@ searchButton.addEventListener("click", () => {
   currentViewFunction = () => displayCountries(filteredCountries);
 });
 
-fetchingAll();
+loadAllCountries();
 
 continentOption.addEventListener("change", () => {
   const selectedOption = parseInt(continentOption.value);

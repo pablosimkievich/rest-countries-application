@@ -44,16 +44,49 @@ const normalizeCountry = (country = {}) => ({
 const light = document.querySelector(".fa-sun");
 const dark = document.querySelector(".fa-moon");
 
+const setTheme = (isDark) => {
+  const themeBody = isDark ? "var(--dark-body)" : "var(--light-body)";
+  const themeContainer = isDark ? "var(--dark-container)" : "var(--light-container)";
+  const themeCountry = isDark ? "var(--dark-country)" : "var(--light-country)";
+  const themeInput = isDark ? "var(--dark-input)" : "var(--light-input)";
+  const themeButton = isDark ? "var(--dark-button)" : "var(--light-button)";
+  const themeText = isDark ? "var(--dark-text)" : "var(--light-text)";
+
+  document.documentElement.style.setProperty("--light-body", isDark ? "rgb(54, 60, 65)" : "rgb(210, 215, 224)");
+  document.documentElement.style.setProperty("--light-container", isDark ? "rgb(129, 134, 145)" : "rgb(178, 185, 198)");
+  document.documentElement.style.setProperty("--light-country", isDark ? "rgb(110, 115, 126)" : "rgb(167, 172, 184)");
+  document.documentElement.style.setProperty("--light-input", isDark ? "rgb(92, 98, 107)" : "rgb(160, 167, 180)");
+  document.documentElement.style.setProperty("--light-button", isDark ? "rgb(80, 86, 93)" : "rgb(149, 156, 170)");
+  document.documentElement.style.setProperty("--light-text", isDark ? "rgb(236, 240, 246)" : "rgba(32, 35, 59, 0.8)");
+
+  body.style.background = "linear-gradient(180deg, " + themeBody + ", rgba(0,0,0,0.06) 100%)";
+  container.style.backgroundColor = themeContainer;
+  header.style.backgroundColor = themeContainer;
+  countryList.style.backgroundColor = themeContainer;
+  document.querySelectorAll("select, input, button, .country, .countryDetail, .backbutton").forEach((element) => {
+    if (element.tagName === "SELECT" || element.tagName === "INPUT") {
+      element.style.backgroundColor = themeInput;
+      element.style.color = themeText;
+    }
+
+    if (element.tagName === "BUTTON" || element.classList.contains("backbutton")) {
+      element.style.backgroundColor = themeButton;
+      element.style.color = themeText;
+    }
+
+    if (element.classList.contains("country") || element.classList.contains("countryDetail")) {
+      element.style.background = "linear-gradient(180deg, rgba(255,255,255,0.06), rgba(0,0,0,0.03)), " + themeCountry;
+      element.style.color = themeText;
+    }
+  });
+};
+
 light.addEventListener("click", () => {
-  body.style.backgroundColor = "var(--light-body)";
-  container.style.backgroundColor = "var(--light-container)";
-  header.style.backgroundColor = "var(--light-container)";
+  setTheme(false);
 });
 
 dark.addEventListener("click", () => {
-  body.style.backgroundColor = "var(--dark-body)";
-  container.style.backgroundColor = "var(--dark-container)";
-  header.style.backgroundColor = "var(--dark-container)";
+  setTheme(true);
 });
 
 // Light and Dark mode selectors
@@ -209,20 +242,25 @@ const fetchingOceania = () => {
   filterByRegion("Oceania");
 };
 
-searchInput.addEventListener("keydown", (event) => {
-  if (event.key === "Enter") {
-    searchButton.click();
-  }
-});
-
-searchButton.addEventListener("click", () => {
+const runSearch = () => {
   const searchQuery = searchInput.value.toLowerCase().trim();
   const filteredCountries = allCountriesData.filter((country) =>
     country.name.common.toLowerCase().includes(searchQuery)
   );
   displayCountries(filteredCountries);
   currentViewFunction = () => displayCountries(filteredCountries);
+};
+
+searchInput.addEventListener("input", runSearch);
+
+searchInput.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    runSearch();
+  }
 });
+
+searchButton.addEventListener("click", runSearch);
 
 loadAllCountries();
 
